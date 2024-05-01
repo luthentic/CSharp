@@ -3,10 +3,10 @@
 
 ## 🚀 Introduction
 
-My personal on going study project about C#
+My personal on going study project about C# and .NET
 
 <p align="center">
-  <img src = "https://miro.medium.com/max/2728/1*7I6oONv2fGLQJcNEFA4QSw.png" width=600 height=300>
+  <img src = "https://miro.medium.com/max/2728/1*7I6oONv2fGLQJcNEFA4QSw.png" width=800 height=300>
 </p>
 
 ## 🚩 Table of Contents
