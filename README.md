@@ -15,7 +15,7 @@ My personal on going study project about C# and .NET
 - [Assembly](#assembly)
 - [Attribute](#attribute)
 
-## ⭐CLR(Common Language Runtime) / CIL(Common Intermediate Language)
+## CLR 
 **Compile Time:**
 
 C#: C# (pronounced “C-sharp”) is a high-level programming language developed by Microsoft. It’s commonly used for building Windows applications, web services, and more.
@@ -32,23 +32,23 @@ When you write C# code, you often rely on these .NET libraries to perform common
 CLR (Common Language Runtime): The CLR is a crucial component of the .NET Framework. It takes the compiled CIL code and turns it into native machine code that your computer can execute directly.
 The CLR also manages memory, handles exceptions, and provides other runtime services. It ensures that your C# application runs smoothly and efficiently.
 
-## ⭐Assembly
+## Assembly
 
-## ⭐Attribute
+## Attribute
 
-## ⭐Constructor Chaining
+## Constructor Chaining
 
-## ⭐Object Argument
+## Object Argument
 
-## ⭐Abstract
+## Abstract
 
-## ⭐Partial Class
+## Partial Class
 
-## ⭐Destructor76
+## Destructor76
 
-## ⭐OOP
+## OOP
 
-## ⭐Sln File
+## Sln File
 
-## 📜References
+## References
 
