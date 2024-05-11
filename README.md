@@ -139,17 +139,8 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
   - https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/
      
   
-## Constructor Chaining
+## 
 
-## Object Argument
-
-## Abstract
-
-## Partial Class
-
-## Destructor76
-
-## OOP
 
 ## Sln File
 
