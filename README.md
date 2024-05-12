@@ -3,7 +3,7 @@
 
 ## 🚀 Introduction
 
-My personal on going study project about C# and .NET
+My personal on going study project about C# and .NET 
 
 <p align="center">
   <img src = "https://miro.medium.com/max/2728/1*7I6oONv2fGLQJcNEFA4QSw.png" width=800 height=300>
@@ -15,6 +15,7 @@ My personal on going study project about C# and .NET
 - [Assembly](#assembly)
 - [DLL EXE](dll-exe)
 - [Attribute](#attribute)
+- [Property vs Field](property-vs-field)
 
 ## CLR 
 **Compile Time:**
@@ -138,11 +139,10 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
   - https://www.youtube.com/watch?v=4ZfFI4zV1Wc
   - https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/
      
-  
-## 
+## Property vs Field:
+
+  - https://stackoverflow.com/questions/4142867/what-is-the-difference-between-a-property-and-a-variable
 
 
 ## Sln File
-
-## References
 
