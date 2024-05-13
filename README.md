@@ -16,6 +16,10 @@ My personal on going study project about C# and .NET
 - [DLL EXE](dll-exe)
 - [Attribute](#attribute)
 - [Property vs Field](property-vs-field)
+- [Sln](sln)
+- [Auto Implemented Properties](auto-implemented-properties)
+
+---
 
 ## CLR 
 **Compile Time:**
@@ -142,7 +146,19 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
 ## Property vs Field:
 
   - https://stackoverflow.com/questions/4142867/what-is-the-difference-between-a-property-and-a-variable
-
+  - https://www.youtube.com/watch?v=UyS3ppdT8I4
 
 ## Sln File
+
+  - https://stackoverflow.com/questions/7133796/what-are-sln-and-vcproj-files-and-what-do-they-contain
+  - https://www.youtube.com/watch?v=L2HCvO8dGVg
+  - https://www.reddit.com/r/csharp/comments/10culvq/noob_question_sln_files/
+
+## Auto Implemented Properties
+
+  - https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties
+  - https://dev.to/cwl157/6-options-to-implement-auto-implemented-properties-a8o
+
+
+
 
