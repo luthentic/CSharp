@@ -18,7 +18,7 @@ My personal on going study project about C# and .NET
 - [Property vs Field](property-vs-field)
 - [Sln](sln)
 - [Auto Implemented Properties](auto-implemented-properties)
-- [DI](di)
+- [Dependency Injection]()
 
 ---
 
@@ -194,6 +194,6 @@ They cannot contain functions, constructors, or other class members.
 In summary, anonymous types provide a quick way to create small, temporary objects with specific properties. They’re especially handy when working with LINQ queries or when I need a simple data structure on the fly! 
 
 
-## DI
+## Dependency Injection
  - https://www.reddit.com/r/csharp/comments/ru9chz/can_you_explain_what_dependency_injection_is/
  - 
