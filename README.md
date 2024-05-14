@@ -18,7 +18,7 @@ My personal on going study project about C# and .NET
 - [Property vs Field](property-vs-field)
 - [Sln](sln)
 - [Auto Implemented Properties](auto-implemented-properties)
-- [Dependency Injection]()
+- [Dependency Injection](dependency-injection)
 
 ---
 
@@ -195,5 +195,7 @@ In summary, anonymous types provide a quick way to create small, temporary objec
 
 
 ## Dependency Injection
+ - https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
  - https://www.reddit.com/r/csharp/comments/ru9chz/can_you_explain_what_dependency_injection_is/
- - 
+ - https://www.youtube.com/watch?v=Hhpq7oYcpGE&t=2337s
+ - https://www.youtube.com/watch?v=iQ8cNI7a6mk
