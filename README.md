@@ -18,6 +18,7 @@ My personal on going study project about C# and .NET
 - [Property vs Field](property-vs-field)
 - [Sln](sln)
 - [Auto Implemented Properties](auto-implemented-properties)
+- [DI](di)
 
 ---
 
@@ -159,6 +160,40 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
   - https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties
   - https://dev.to/cwl157/6-options-to-implement-auto-implemented-properties-a8o
 
+## Anonymous Types
+ ### What are Anonymous Types?
+  Anonymous types are nameless types that allow you to bundle a set of read-only properties into a single object without explicitly defining a type beforehand.
+  These types are particularly useful when you want to create a temporary object with specific properties without having to create a formal class or struct.
+  
+  - Creating an Anonymous Type:
+  To create an anonymous object, use the new keyword along with an object initializer (curly braces {}) to specify the desired properties.
+  The compiler infers the type name, and you don’t need to explicitly declare it.
+  
+  Example:
+
+  ```csharp
+  var person = new { Name = "Alice", Age = 30 };
+  ```
+
+ ### Usage Scenarios:
+  Query Expressions: Anonymous types are commonly used in the select clause of LINQ query expressions to return a subset of properties from each object in a source sequence.
+  Reducing Data: When querying data, using anonymous types allows you to return only the necessary properties, reducing the amount of data retrieved.
+  Read-Only Properties: Anonymous types contain only public read-only properties. No other members (methods, events, etc.) are allowed.
+  Property Initialization: You can initialize properties from other types. 
+  
+  For example:
+
+  ```csharp
+  var products = new List<Product>(); // Assume Product class has Color and Price properties
+  var productQuery = from prod in products
+                     select new { prod.Color, prod.Price };
+  ```
+
+Anonymous types are lightweight and convenient for short-lived scenarios.
+They cannot contain functions, constructors, or other class members.
+In summary, anonymous types provide a quick way to create small, temporary objects with specific properties. They’re especially handy when working with LINQ queries or when I need a simple data structure on the fly! 
 
 
-
+## DI
+ - https://www.reddit.com/r/csharp/comments/ru9chz/can_you_explain_what_dependency_injection_is/
+ - 
