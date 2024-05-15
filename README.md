@@ -19,6 +19,8 @@ My personal on going study project about C# and .NET
 - [Sln](sln)
 - [Auto Implemented Properties](auto-implemented-properties)
 - [Dependency Injection](dependency-injection)
+- [Extension Methods](extension-methods)
+- [Stream vs Buffer](stream-vs-buffer)
 
 ---
 
@@ -194,8 +196,44 @@ They cannot contain functions, constructors, or other class members.
 In summary, anonymous types provide a quick way to create small, temporary objects with specific properties. They’re especially handy when working with LINQ queries or when I need a simple data structure on the fly! 
 
 
-## Dependency Injection
+## Dependency Injection:
  - https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
  - https://www.reddit.com/r/csharp/comments/ru9chz/can_you_explain_what_dependency_injection_is/
  - https://www.youtube.com/watch?v=Hhpq7oYcpGE&t=2337s
  - https://www.youtube.com/watch?v=iQ8cNI7a6mk
+
+## Extension Methods:
+ - https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
+ - https://www.tutorialsteacher.com/csharp/csharp-extension-method
+
+## Scoped Ref:
+
+### What Is a Ref Struct?
+
+A ref struct is a special type in C# that lives on the stack (rather than the heap) and is designed for performance-critical scenarios.
+It’s often used for things like buffers, memory pools, or other low-level operations.
+
+### The Problem with Passing Ref Structs
+
+When you pass a ref struct as an argument to a method, there’s a concern about its lifetime.
+If the method captures or returns the ref struct, it could lead to unexpected behavior because the lifetime of the ref struct isn’t guaranteed.
+
+### Enter the Scoped Keyword
+
+The scoped keyword was introduced in C# 11 to address this issue.
+When you mark a ref struct parameter as scoped, it means that the method can accept a locally declared ref struct without capturing it or returning it.
+In other words, the method won’t hold onto the ref struct beyond its own scope.
+
+### Use Cases for Scoped Ref
+
+Imagine you have a ref struct representing a buffer, and you want to pass it to a method for processing.
+By using scoped, you ensure that the method won’t accidentally capture the buffer or return it, avoiding lifetime issues.
+
+## Stream vs Buffer:
+- https://stackoverflow.com/questions/43935608/difference-between-buffer-stream-in-c-sharp
+- https://learn.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-8.0
+- https://learn.microsoft.com/en-us/dotnet/api/system.buffer?view=net-8.0
+
+
+
+
