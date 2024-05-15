@@ -21,6 +21,7 @@ My personal on going study project about C# and .NET
 - [Dependency Injection](dependency-injection)
 - [Extension Methods](extension-methods)
 - [Stream vs Buffer](stream-vs-buffer)
+- [Ref Struct](ref-struct)
 
 ---
 
@@ -234,6 +235,49 @@ By using scoped, you ensure that the method won’t accidentally capture the buf
 - https://learn.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-8.0
 - https://learn.microsoft.com/en-us/dotnet/api/system.buffer?view=net-8.0
 
+## Ref Struct:
+### What is a ref struct?
+A ref struct is a special type of structure (or struct) in C# that has some unique characteristics:
 
+Instances of a ref struct are allocated on the stack rather than the managed heap.
+They cannot escape to the managed heap, ensuring that they remain within the stack frame.
+The purpose of ref struct is to allow types that can only exist on the stack, improving memory efficiency and performance.
 
+### Why is it important?
+Memory Safety: By restricting ref struct instances to the stack, C# ensures memory safety. These types cannot be accidentally moved to the heap, preventing potential memory leaks or unsafe behavior.
+
+Performance: Since ref struct instances reside on the stack, they avoid the overhead of heap allocation and garbage collection. This makes them more efficient in terms of memory usage and access time.
+
+Span and ReadOnlySpan: One of the most common use cases for ref struct is with Span<T> and ReadOnlySpan<T>. These types allow efficient manipulation of contiguous memory regions (e.g., arrays, buffers) without unnecessary copying. Both Span<T> and ReadOnlySpan<T> are implemented as ref struct types1.
+
+Stack-Only Behavior: By using ref struct, you can enforce stack-only behavior for certain types. This is particularly useful when dealing with low-level memory operations or when you want to avoid heap allocations.
+
+Avoiding Heap Pressure: When working with large datasets or performance-critical code, using ref struct can help reduce heap pressure and improve overall application performance.
+
+Example: Defining a ref struct
+
+```csharp
+public ref struct CustomRef
+{
+    public bool IsValid;
+    public Span<int> Inputs;
+    public Span<int> Outputs;
+}
+```
+
+Readonly ref struct
+
+```csharp
+public readonly ref struct ConversionRequest
+{
+    public ConversionRequest(double rate, ReadOnlySpan<double> values)
+    {
+        Rate = rate;
+        Values = values;
+    }
+
+    public double Rate { get; }
+    public ReadOnlySpan<double> Values { get; }
+}
+```
 
