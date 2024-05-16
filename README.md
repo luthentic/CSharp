@@ -22,6 +22,9 @@ My personal on going study project about C# and .NET
 - [Extension Methods](extension-methods)
 - [Stream vs Buffer](stream-vs-buffer)
 - [Ref Struct](ref-struct)
+- [Dynamic Type](dynamic-type)
+- [Records](records)
+- [Conventions](conventions)
 
 ---
 
@@ -244,15 +247,15 @@ They cannot escape to the managed heap, ensuring that they remain within the sta
 The purpose of ref struct is to allow types that can only exist on the stack, improving memory efficiency and performance.
 
 ### Why is it important?
-Memory Safety: By restricting ref struct instances to the stack, C# ensures memory safety. These types cannot be accidentally moved to the heap, preventing potential memory leaks or unsafe behavior.
+**Memory Safety**: By restricting ref struct instances to the stack, C# ensures memory safety. These types cannot be accidentally moved to the heap, preventing potential memory leaks or unsafe behavior.
 
-Performance: Since ref struct instances reside on the stack, they avoid the overhead of heap allocation and garbage collection. This makes them more efficient in terms of memory usage and access time.
+**Performance**: Since ref struct instances reside on the stack, they avoid the overhead of heap allocation and garbage collection. This makes them more efficient in terms of memory usage and access time.
 
-Span and ReadOnlySpan: One of the most common use cases for ref struct is with Span<T> and ReadOnlySpan<T>. These types allow efficient manipulation of contiguous memory regions (e.g., arrays, buffers) without unnecessary copying. Both Span<T> and ReadOnlySpan<T> are implemented as ref struct types1.
+**Span and ReadOnlySpan**: One of the most common use cases for ref struct is with Span<T> and ReadOnlySpan<T>. These types allow efficient manipulation of contiguous memory regions (e.g., arrays, buffers) without unnecessary copying. Both Span<T> and ReadOnlySpan<T> are implemented as ref struct types1.
 
-Stack-Only Behavior: By using ref struct, you can enforce stack-only behavior for certain types. This is particularly useful when dealing with low-level memory operations or when you want to avoid heap allocations.
+**Stack-Only Behavior**: By using ref struct, you can enforce stack-only behavior for certain types. This is particularly useful when dealing with low-level memory operations or when you want to avoid heap allocations.
 
-Avoiding Heap Pressure: When working with large datasets or performance-critical code, using ref struct can help reduce heap pressure and improve overall application performance.
+**Avoiding Heap Pressure**: When working with large datasets or performance-critical code, using ref struct can help reduce heap pressure and improve overall application performance.
 
 Example: Defining a ref struct
 
@@ -280,4 +283,103 @@ public readonly ref struct ConversionRequest
     public ReadOnlySpan<double> Values { get; }
 }
 ```
+
+## Dynamic Type:
+The dynamic type in C# was introduced in version 4.0 (.NET 4.5). It allows you to bypass compile-time type checking and resolve the type at runtime. Here are the key points about dynamic 
+
+**Definition**: A dynamic type variable is defined using the dynamic keyword.
+
+**Type Checking**: Unlike other static types, the compiler doesn’t perform type checking on dynamic variables during compilation.
+
+**Runtime Resolution**: The actual type of a dynamic variable is determined at runtime.
+
+**Operations**: You can perform any operation on a dynamic element without the need to know its exact type.
+
+**Errors**: If the code isn’t valid, errors surface at runtime rather than compile time.
+
+```csharp
+class ExampleClass
+{
+    public void ExampleMethod1(int i) { /* ... */ }
+    public void ExampleMethod2(string str) { /* ... */ }
+}
+
+static void Main(string[] args)
+{
+    ExampleClass ec = new ExampleClass();
+
+    // Compiler error (if ExampleMethod1 has only one parameter)
+    // ec.ExampleMethod1(10, 4);
+
+    dynamic dynamic_ec = new ExampleClass();
+
+    // No compiler error (but causes a runtime exception)
+    dynamic_ec.ExampleMethod1(10, 4);
+
+    // These calls also don't cause compiler errors
+    dynamic_ec.SomeMethod("some argument", 7, null);
+    dynamic_ec.NonexistentMethod();
+}
+```
+
+## Records:
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/records
+- https://www.csharptutorial.net/csharp-tutorial/csharp-record/
+
+
+
+## Primary Consturctors:
+primary constructors were introduced in version 12. They provide a concise syntax for declaring constructors whose parameters are available throughout the body of a type.
+
+**Declaration:**
+
+1. Can add parameters to a class or struct declaration to create a primary constructor.
+2. Primary constructor parameters are in scope throughout the class definition.
+3. They are similar to method parameters but have specific rules.
+
+**Rules for Primary Constructor Parameters:**
+
+1. They may not be stored if not needed.
+2. They aren’t members of the class.
+3. They can be assigned to.
+4. They don’t become properties (except in record types).
+
+**Common Uses:**
+
+1. As arguments to a base() constructor invocation.
+2. To initialize member fields or properties.
+3. Referencing them in instance members.
+
+**Record Type with Primary Constructor**
+```csharp
+public record Person(string FirstName, string LastName);
+```
+
+**Class with Primary Constructor and Initialization**
+```csharp
+public class Point
+{
+    public double X { get; }
+    public double Y { get; }
+
+    public Point(double x, double y) => (X, Y) = (x, y);
+}
+```
+
+**Struct with Primary Constructor and Computed Properties**
+```csharp
+public readonly struct Circle
+{
+    public double Radius { get; }
+    public double Area => Math.PI * Radius * Radius;
+
+    public Circle(double radius) => Radius = radius;
+}
+```
+
+## Conventions:
+- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
+- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+
 
