@@ -26,7 +26,7 @@ My personal on going study project about C# and .NET
 - [Records](records)
 - [Conventions](conventions)
 - [AOT](aot)
-
+- [Class vs Struct](class-vs-struct)
 ---
 
 ## CLR 
@@ -407,5 +407,25 @@ AOT support varies across different versions of .NET.
 Not all libraries are fully compatible with AOT.
 Some platform-specific limitations exist.
 
+## Class vs Struct:
+### Reference Types (Classes):
+**Lives on the heap**: Objects of reference types (instances of classes) are allocated on the heap.
+
+**Contains a reference**: A variable of a reference type holds a reference (or pointer) to the actual data stored elsewhere in memory.
+
+**Nullable**: Reference types can be null.
+
+**Used for complex scenarios**: Classes are suitable for more complex data structures, inheritance, and polymorphism.
+Can have default constructors and destructors.
+
+### Value Types (Structs):
+**Lives inline:** Structs are value types, and their instances are stored directly where the variable or field is defined (usually on the stack).
+
+**Contains the entire value**: A variable of a value type contains the entire value type value.
+
+**Non-nullable**: Value types cannot be null.
+
+**Used for lightweight data**: Structs are ideal for small, lightweight data structures (e.g., coordinates, simple data).
+Cannot have default constructors or destructors
 
 
