@@ -25,6 +25,7 @@ My personal on going study project about C# and .NET
 - [Dynamic Type](dynamic-type)
 - [Records](records)
 - [Conventions](conventions)
+- [AOT](aot)
 
 ---
 
@@ -381,5 +382,30 @@ public readonly struct Circle
 - https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
 - https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
 - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+
+## AOT:
+**Ahead-of-Time (AOT) compilation** in the context of C# refers to a process where C# code is compiled to native machine code before the application runs.
+
+**Purpose:**
+
+AOT compilation contrasts with the traditional method where code is compiled to native code during runtime (Just-In-Time compilation, or JIT).
+AOT aims to improve startup time and reduce memory overhead.
+
+**How It Works:**
+
+During AOT, the C# code is compiled to native machine code on the developer’s machine.
+The resulting native binary can run directly without relying on a JIT compiler during execution.
+
+**Benefits:**
+
+Faster Startup: AOT-compiled apps start more quickly because there’s no JIT compilation delay.
+Smaller Memory Footprint: Native binaries are often smaller than their JIT-compiled counterparts.
+Restricted Environments: AOT apps can run in environments where JIT compilation isn’t allowed.
+
+**Limitations:**
+AOT support varies across different versions of .NET.
+Not all libraries are fully compatible with AOT.
+Some platform-specific limitations exist.
+
 
 
