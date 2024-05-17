@@ -11,6 +11,7 @@ My personal on going study project about C# and .NET
 
 ## 🚩 Table of Contents
 
+- [Top Level Statement](#top-level-statement)
 - [CLR](#clr)
 - [Assembly](#assembly)
 - [DLL EXE](#dll-exe)
@@ -27,7 +28,12 @@ My personal on going study project about C# and .NET
 - [Conventions](#conventions)
 - [AOT](#aot)
 - [Class vs Struct](#class-vs-struct)
+
+  
 ---
+
+## Top Level Statement
+ - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
 
 ## CLR 
 **Compile Time:**
