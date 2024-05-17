@@ -29,7 +29,7 @@ My personal on going study project about C# and .NET to Master C#
 - [Conventions](#conventions)
 - [AOT](#aot)
 - [Class vs Struct](#class-vs-struct)
-
+- [Glossaries](#glossaires)
   
 ---
 
@@ -40,8 +40,9 @@ My personal on going study project about C# and .NET to Master C#
  - https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
  - https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/
  - https://www.telerik.com/blogs/understanding-net-garbage-collection
+ - https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/background-gc
 
-### Terms: ###
+
 **Memory Compaction:**
 
 Memory compaction happens during garbage collection.
@@ -176,10 +177,6 @@ Large objects (LOH) are also collected here.
 
 ### Performance considerations: ### 
 
-<p align="center">
-<img src = "https://pbs.twimg.com/media/FARt7eVWEAEtCaW?format=jpg&name=large" width=700 height=400>
-</p>
-
 **Workstation GC:**
 
 Used for client apps (e.g., desktop apps).
@@ -194,8 +191,86 @@ Each logical CPU has a heap.
 Faster than workstation GC.
 Can be resource-intensive.
 
+**Differences:**
+
+Background workstation garbage collection uses one dedicated background garbage collection thread, whereas background server garbage collection uses multiple threads. Typically, there's a dedicated thread for each logical processor.
+
+Unlike the workstation background garbage collection thread, the background server GC threads do not time out.
+
+<p align="center">
+<img src = "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/media/fundamentals/background-workstation-garbage-collection.png" width=700 height=400>
+</p>
+
+
+<p align="center">
+<img src = "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/media/fundamentals/background-server-garbage-collection.png" width=700 height=400>
+</p>
+
+### Generations and Heap Segments:
+Imagine the managed heap as a storage area for objects in a .NET application. 
+
+Objects are grouped into different generations: 0, 1, and 2.
+
+The heap is divided into segments: Small Object Heap (SOH) and Large Object Heap (LOH).
+
+If an object is small (less than 85,000 bytes), it goes to the SOH segment.
+
+If an object is large (85,000 bytes or more), it goes to the LOH segment.
+
+### Object Promotion: ### 
+Objects survive garbage collection (GC) cycles.
+
+Survivors from generation 0 become generation 1 objects.
+
+Survivors from generation 1 become generation 2 objects.
+
+Objects in the oldest generation (gen2) remain there.
+
+### Large Object Heap (LOH): ###
+
+The LOH stores large objects.
+
+Compacting the LOH (rearranging objects) is expensive.
+
+Instead, the GC sweeps the LOH, creating a free list of dead objects.
+
+These dead objects can be reused for new large object allocations
+
+<p align="center">
+<img src = "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/media/loh/loh-figure-1.jpg" width=700 height=400>
+</p>
+
+<p align="center">
+<img src = "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/media/loh/loh-figure-2.jpg" width=700 height=400>
+</p>
+
+
 ---
 
+## Libraries
+ - https://stackoverflow.com/questions/807880/bcl-base-class-library-vs-fcl-framework-class-library
+ - https://learn.microsoft.com/en-us/dotnet/api/system?view=net-8.0
+ - https://learn.microsoft.com/en-us/dotnet/standard/class-library-overview
+
+### Base Class Library (BCL): ###
+The BCL contains fundamental types like System.String and System.DateTime.
+It’s the foundation—basic building blocks for .NET applications.
+
+### Framework Class Library (FCL): ###
+The FCL is broader—it includes the BCL.
+Contains libraries for ASP.NET, WinForms, XML handling, ADO.NET, and more.
+Developers use FCL classes to simplify their work.
+
+### Runtime Libraries: ### 
+These are part of the .NET runtime.
+They provide essential functionality for executing .NET applications.
+Think of them as the toolbox for developers.
+
+**System namespace:**
+
+The System namespace is the root namespace for fundamental types in .NET. This namespace includes classes that represent the base data types used by all applications, for example, Object (the root of the inheritance hierarchy), Byte, Char, Array, Int32, and String. Many of these types correspond to the primitive data types that your programming language uses. When you write code using .NET types, you can use your language's corresponding keyword when a .NET base data type is expected.
+
+---
 
 ## Top Level Statement:
  - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
@@ -689,5 +764,12 @@ Can have default constructors and destructors.
 Cannot have default constructors or destructors
 
 ---
+
+## Glossaries:
+
+1. Buffer: a sequence of bytes in memory
+2. Buffering: manipulation of that data
+3. Primitive Types: the most basic data types that the language supports and the compiler predefines
+4. Offset: integer that represents the distance between the beginning of an array or data structure object and a specific point or element
 
 
