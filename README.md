@@ -12,6 +12,8 @@ My personal on going study project about C# and .NET to Master C#
 ## 🚩 Table of Contents
 
 - [Memory Management](#memory-management)
+- [Types](#types)
+- [Libraries](#libraries)
 - [Top Level Statement](#top-level-statement)
 - [CLR](#clr)
 - [Assembly](#assembly)
@@ -24,7 +26,6 @@ My personal on going study project about C# and .NET to Master C#
 - [Extension Methods](#extension-methods)
 - [Stream vs Buffer](#stream-vs-buffer)
 - [Ref Struct](#ref-struct)
-- [Dynamic Type](#dynamic-type)
 - [Records](#records)
 - [Conventions](#conventions)
 - [AOT](#aot)
@@ -146,11 +147,6 @@ class MyClass
 ```
 
 
-<p align="center">
-<img src = "http://lh3.googleusercontent.com/-CvuggBZBOsQ/VmMuTb8H6vI/AAAAAAAACNI/X94W7cVU9A8/s1600-h/Untitled%252520Diagram%25255B4%25255D.png" width=700 height=400>
-</p>
-
-
 ### Generations: ###
 
 The garbage collector (GC) divides memory into three generations: 0, 1, and 2.
@@ -244,8 +240,176 @@ These dead objects can be reused for new large object allocations
 <img src = "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/media/loh/loh-figure-2.jpg" width=700 height=400>
 </p>
 
+---
+
+
+
+
+
+
+
+## Types:
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/
+- https://www.reddit.com/r/csharp/comments/15i6m8b/very_confused_about_structs/
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#code-try-3
+
+### Value Types:
+
+1. Derived from System.ValueType, which itself derives from System.Object.
+2. Special behavior in the Common Language Runtime (CLR).
+3. Variables directly contain their values.
+
+**Structure Type:**
+
+A structure type (or struct type) is a value type that encapsulates data and related functionality.
+You use the struct keyword to define a structure type.
+Structure types have value semantics, meaning they contain an instance of the type directly.
+
+**Default Behavior:**
+
+Variable values of structure types are copied on assignment, method arguments, and method return.
+Use structure types for small data-centric types with little or no behavior.
+
+**Immutable Structs:**
+Declare a readonly struct to make it immutable.
+All data members must be read-only or init-only.
+
+**Readonly Instance Members:**
+Mark instance members as readonly if they don’t modify the struct’s state.
+Readonly members can call non-readonly members but can’t assign to instance fields.
+
+**Enumeration Type:** 
+
+1. An enum type is a value type defined by named constants.
+2. Enum members have an associated constant value (by default, of type int).
+3. You can specify any integral numeric type as the underlying type.
+
+
+**Nullable value type** - T? represents all values of its underlying value type T and an additional null value
+
+**const** - keyword to declare a constant field or a local constant
+
+**Built-in types:**
+
+1. bool - System.Boolean
+2. byte	- System.Byte
+3. sbyte - System.SByte
+4. char	- System.Char
+5. decimal - System.Decimal
+6. double	- System.Double
+7. float	- System.Single
+8. int	- System.Int32
+9. uint	- System.UInt32
+10. nint	- System.IntPtr
+11. nuint	- System.UIntPtr
+12. long	- System.Int64
+13. ulong	- System.UInt64
+14. short	- System.Int16
+15. ushort - System.UInt16
+
+
+### Reference Types:
+
+1. class
+2. interface
+3. delegate
+4. record
+
+**Built-in types:**
+
+1. object	- System.Object
+2. string	- System.String
+3. dynamic - System.Object
+
+### Tuples vs System.Tuple:
+The tuples feature provides concise syntax to group multiple data elements in a lightweight data structure. 
+
+```charp
+(double, int) t1 = (4.5, 3);
+Console.WriteLine($"Tuple with elements {t1.Item1} and {t1.Item2}.");
+// Output:
+// Tuple with elements 4.5 and 3.
+
+(double Sum, int Count) t2 = (4.5, 3);
+Console.WriteLine($"Sum of {t2.Count} elements is {t2.Sum}.");
+// Output:
+// Sum of 3 elements is 4.5.
+```
+
+C# tuples, which are backed by System.ValueTuple types, are different from tuples that are represented by System.Tuple types. The main differences are as follows:
+
+1. System.ValueTuple types are value types. System.Tuple types are reference types.
+2. System.ValueTuple types are mutable. System.Tuple types are immutable.
+3. Data members of System.ValueTuple types are fields. Data members of System.Tuple types are properties.
+
+**Tuples as out parameters**
+
+```csharp
+var limitsLookup = new Dictionary<int, (int Min, int Max)>()
+{
+    [2] = (4, 10),
+    [4] = (10, 20),
+    [6] = (0, 23)
+};
+
+if (limitsLookup.TryGetValue(4, out (int Min, int Max) limits))
+{
+    Console.WriteLine($"Found limits: min is {limits.Min}, max is {limits.Max}");
+}
+// Output:
+// Found limits: min is 10, max is 20
+```
+
+### Dynamic Type:
+The dynamic type in C# was introduced in version 4.0 (.NET 4.5). It allows you to bypass compile-time type checking and resolve the type at runtime. Here are the key points about dynamic 
+
+**Definition**: A dynamic type variable is defined using the dynamic keyword.
+
+**Type Checking**: Unlike other static types, the compiler doesn’t perform type checking on dynamic variables during compilation.
+
+**Runtime Resolution**: The actual type of a dynamic variable is determined at runtime.
+
+**Operations**: You can perform any operation on a dynamic element without the need to know its exact type.
+
+**Errors**: If the code isn’t valid, errors surface at runtime rather than compile time.
+
+```csharp
+class ExampleClass
+{
+    public void ExampleMethod1(int i) { /* ... */ }
+    public void ExampleMethod2(string str) { /* ... */ }
+}
+
+static void Main(string[] args)
+{
+    ExampleClass ec = new ExampleClass();
+
+    // Compiler error (if ExampleMethod1 has only one parameter)
+    // ec.ExampleMethod1(10, 4);
+
+    dynamic dynamic_ec = new ExampleClass();
+
+    // No compiler error (but causes a runtime exception)
+    dynamic_ec.ExampleMethod1(10, 4);
+
+    // These calls also don't cause compiler errors
+    dynamic_ec.SomeMethod("some argument", 7, null);
+    dynamic_ec.NonexistentMethod();
+}
+```
 
 ---
+
+
+
+
+
+
+
+
 
 ## Libraries
  - https://stackoverflow.com/questions/807880/bcl-base-class-library-vs-fcl-framework-class-library
@@ -272,14 +436,64 @@ The System namespace is the root namespace for fundamental types in .NET. This n
 
 ---
 
+
+
+
+
+
 ## Top Level Statement:
  - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
 
+With top-level statements, you can avoid the extra ceremony of placing your program’s entry point in a static method within a class.
+
+```csharp
+Console.WriteLine("Hello World");
+```
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseAuthorization();
+
+app.MapGet("/hi", () => "Hello!");
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
+app.Run();
+```
 
 ---
 
 
 ## CLR 
+- https://barcelonageeks.com/common-language-runtime-clr-en-c-1/
+- 
+
+<p align="center">
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Overview-of-the-.NET-Framework-min.png" width=700 height=400>
+</p>
+
+<p align="center">
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Working_CLR.jpg" width=700 height=400>
+</p>
+
 **Compile Time:**
 
 C#: C# (pronounced “C-sharp”) is a high-level programming language developed by Microsoft. It’s commonly used for building Windows applications, web services, and more.
@@ -299,6 +513,8 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
 
 
 ---
+
+
 
 
 ## Assembly:
@@ -597,48 +813,6 @@ public readonly ref struct ConversionRequest
 
 ---
 
-
-
-## Dynamic Type:
-The dynamic type in C# was introduced in version 4.0 (.NET 4.5). It allows you to bypass compile-time type checking and resolve the type at runtime. Here are the key points about dynamic 
-
-**Definition**: A dynamic type variable is defined using the dynamic keyword.
-
-**Type Checking**: Unlike other static types, the compiler doesn’t perform type checking on dynamic variables during compilation.
-
-**Runtime Resolution**: The actual type of a dynamic variable is determined at runtime.
-
-**Operations**: You can perform any operation on a dynamic element without the need to know its exact type.
-
-**Errors**: If the code isn’t valid, errors surface at runtime rather than compile time.
-
-```csharp
-class ExampleClass
-{
-    public void ExampleMethod1(int i) { /* ... */ }
-    public void ExampleMethod2(string str) { /* ... */ }
-}
-
-static void Main(string[] args)
-{
-    ExampleClass ec = new ExampleClass();
-
-    // Compiler error (if ExampleMethod1 has only one parameter)
-    // ec.ExampleMethod1(10, 4);
-
-    dynamic dynamic_ec = new ExampleClass();
-
-    // No compiler error (but causes a runtime exception)
-    dynamic_ec.ExampleMethod1(10, 4);
-
-    // These calls also don't cause compiler errors
-    dynamic_ec.SomeMethod("some argument", 7, null);
-    dynamic_ec.NonexistentMethod();
-}
-```
-
-
----
 
 
 
