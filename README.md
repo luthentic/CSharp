@@ -360,16 +360,16 @@ static void Main(string[] args)
   ```
 - You can also use the required modifier on a property and allow callers to use an object initializer to set the initial value of the property:
 
-```csharp
-public class Person
-{
-    public required string LastName { get; set; }
-    public required string FirstName { get; set; }
-}
-
-var p1 = new Person(); // Error! Required properties not set
-var p2 = new Person() { FirstName = "Grace", LastName = "Hopper" };
-```
+  ```csharp
+  public class Person
+  {
+      public required string LastName { get; set; }
+      public required string FirstName { get; set; }
+  }
+  
+  var p1 = new Person(); // Error! Required properties not set
+  var p2 = new Person() { FirstName = "Grace", LastName = "Hopper" };
+  ```
 
 **References:**
 
