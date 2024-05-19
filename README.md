@@ -1,20 +1,16 @@
 
-
-
-## 🚀 Introduction
-
-My personal on going study project about C# and .NET to Master C#
-
 <p align="center">
   <img src = "https://miro.medium.com/max/2728/1*7I6oONv2fGLQJcNEFA4QSw.png" width=800 height=300>
 </p>
 
 ## 🚩 Table of Contents
 
-- [Memory Management](#memory-management)
+- [Program Structure](#program-structure)
 - [Types](#types)
+- [Namespace](#namespace)
+- [Class](#class)
+- [Memory Management](#memory-management)
 - [Libraries](#libraries)
-- [Top Level Statement](#top-level-statement)
 - [CLR](#clr)
 - [Assembly](#assembly)
 - [DLL EXE](#dll-exe)
@@ -34,15 +30,436 @@ My personal on going study project about C# and .NET to Master C#
   
 ---
 
-## Memory Management:
- - https://learn.microsoft.com/en-us/dotnet/standard/automatic-memory-management
- - https://learn.microsoft.com/en-us/dotnet/api/system.gc?view=net-8.0
- - https://workat.tech/core-cs/tutorial/logical-and-physical-address-os-8abv46w3k0bu#:~:text=Physical%20Address%20is%20the%20actual,deals%20with%20the%20Physical%20Address.
- - https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
- - https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/
- - https://www.telerik.com/blogs/understanding-net-garbage-collection
- - https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/background-gc
 
+## Program Structure:
+
+C# programs consist of one or more files.
+Each file contains zero or more namespaces.
+A namespace can contain various types, such as classes, structs, interfaces, enumerations, and delegates, or other namespaces.
+
+### Main() Method: ###
+- The Main() method is the entry point of a C# application.
+- It’s where program control starts and ends.
+- Must be declared inside a class or struct.
+- Must be static (and need not be public).
+- Can have a void, int, Task, or Task<int> return type.
+- Can be declared with or without a string[] args parameter for command-line arguments.
+
+**Example signatures:**
+
+public static void Main()
+
+public static int Main()
+
+public static async Task Main()
+
+public static async Task<int> Main()
+
+### Command-Line Arguments: ###
+- Parameters are read as zero-indexed command-line arguments.
+- Unlike C/C++, the program name is not treated as the first argument.
+- Use args.Length to get the number of command-line arguments.
+
+
+
+### Top Level Statement:
+
+With top-level statements, you can avoid the extra ceremony of placing your program’s entry point in a static method within a class.
+
+```csharp
+Console.WriteLine("Hello World");
+```
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseAuthorization();
+
+app.MapGet("/hi", () => "Hello!");
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
+app.Run();
+```
+
+
+**References:**
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+## Types:
+
+### Equality Comparisons: ###
+
+**Reference Equality:**
+
+Reference equality means that two object references refer to the same underlying object.
+Use System.Object.ReferenceEquals(a, b) to check if two references point to the same object.
+Applies only to reference types (not value types).
+Value type objects cannot have reference equality.
+
+**Value Equality:**
+
+Value equality means that two objects contain the same value or values.
+For primitive value types (e.g., int, bool), use the == operator for value equality.
+For other types (classes, structs), value equality depends on how the type defines it (usually all fields or properties having the same value).
+
+
+### Value Types:
+
+1. Derived from System.ValueType, which itself derives from System.Object.
+2. Special behavior in the Common Language Runtime (CLR).
+3. Variables directly contain their values.
+
+**Structure Type:**
+
+A structure type (or struct type) is a value type that encapsulates data and related functionality.
+You use the struct keyword to define a structure type.
+Structure types have value semantics, meaning they contain an instance of the type directly.
+All the rules that apply to structs also apply to enums.
+
+**Value Types:**
+
+- Value types (e.g., struct) are sealed and cannot be derived from.
+- You cannot create a struct that inherits from a user-defined class or another struct.
+- Value types inherit directly from System.ValueType.
+
+**Interfaces and Boxing:**
+
+- A struct can implement one or more interfaces.
+- When you cast a struct to an interface type, it undergoes boxing (wrapped inside a reference type object on the managed heap).
+- Boxing occurs when passing a value type to a method that takes System.Object or any interface type as a parameter.
+
+**Default Behavior:**
+
+Variable values of structure types are copied on assignment, method arguments, and method return.
+Use structure types for small data-centric types with little or no behavior.
+
+**Immutable Structs:**
+
+Declare a readonly struct to make it immutable.
+All data members must be read-only or init-only.
+
+**Readonly Instance Members:**
+
+Mark instance members as readonly if they don’t modify the struct’s state.
+Readonly members can call non-readonly members but can’t assign to instance fields.
+
+**Enumeration Type:** 
+
+1. An enum type is a value type defined by named constants.
+2. Enum members have an associated constant value (by default, of type int).
+3. You can specify any integral numeric type as the underlying type.
+
+
+**Nullable value type** - T? represents all values of its underlying value type T and an additional null value
+
+**const** - keyword to declare a constant field or a local constant
+
+**Built-in types:**
+
+1. bool - System.Boolean
+2. byte	- System.Byte
+3. sbyte - System.SByte
+4. char	- System.Char
+5. decimal - System.Decimal
+6. double	- System.Double
+7. float	- System.Single
+8. int	- System.Int32
+9. uint	- System.UInt32
+10. nint	- System.IntPtr
+11. nuint	- System.UIntPtr
+12. long	- System.Int64
+13. ulong	- System.UInt64
+14. short	- System.Int16
+15. ushort - System.UInt16
+
+
+### Custom types:
+Custom types refer to user-defined types created using class, struct, enum, or interface.
+
+- class MyClass { }
+- struct MyStruct { }
+- enum MyEnum { }
+- interface IMyInterface { }
+
+### Reference Types:
+Reference types store references (memory addresses) to the actual data.
+Objects of reference types are allocated on the heap.
+
+- Class instances
+- string
+- Arrays
+
+### Common type system:
+
+**Inheritance:**
+
+Types can derive from other types (base types).
+Derived types inherit methods, properties, and other members from their base type.
+A base type can itself derive from another type, creating an inheritance hierarchy.
+All types, including built-in numeric types, ultimately derive from System.Object.
+
+**Common Type System (CTS):**
+
+The CTS defines a unified type hierarchy for all types in .NET.
+Custom types (user-defined) and built-in types (e.g., int) are part of the CTS.
+
+**Value Types vs. Reference Types:**
+
+Value types (e.g., struct) store their data directly.
+Reference types (e.g., class) store references to their data.
+Different compile-time rules and run-time behavior apply to each type.
+
+<p align="center">
+<img src = "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/types/media/index/value-reference-types-common-type-system.png" width=700 height=400>
+</p>
+
+### Tuples vs System.Tuple:
+The tuples feature provides concise syntax to group multiple data elements in a lightweight data structure. 
+
+```charp
+(double, int) t1 = (4.5, 3);
+Console.WriteLine($"Tuple with elements {t1.Item1} and {t1.Item2}.");
+// Output:
+// Tuple with elements 4.5 and 3.
+
+(double Sum, int Count) t2 = (4.5, 3);
+Console.WriteLine($"Sum of {t2.Count} elements is {t2.Sum}.");
+// Output:
+// Sum of 3 elements is 4.5.
+```
+
+C# tuples, which are backed by System.ValueTuple types, are different from tuples that are represented by System.Tuple types. The main differences are as follows:
+
+1. System.ValueTuple types are value types. System.Tuple types are reference types.
+2. System.ValueTuple types are mutable. System.Tuple types are immutable.
+3. Data members of System.ValueTuple types are fields. Data members of System.Tuple types are properties.
+
+**Tuples as out parameters**
+
+```csharp
+var limitsLookup = new Dictionary<int, (int Min, int Max)>()
+{
+    [2] = (4, 10),
+    [4] = (10, 20),
+    [6] = (0, 23)
+};
+
+if (limitsLookup.TryGetValue(4, out (int Min, int Max) limits))
+{
+    Console.WriteLine($"Found limits: min is {limits.Min}, max is {limits.Max}");
+}
+// Output:
+// Found limits: min is 10, max is 20
+```
+
+### Dynamic Type:
+The dynamic type in C# was introduced in version 4.0 (.NET 4.5). It allows you to bypass compile-time type checking and resolve the type at runtime. Here are the key points about dynamic 
+
+**Definition**: A dynamic type variable is defined using the dynamic keyword.
+
+**Type Checking**: Unlike other static types, the compiler doesn’t perform type checking on dynamic variables during compilation.
+
+**Runtime Resolution**: The actual type of a dynamic variable is determined at runtime.
+
+**Operations**: You can perform any operation on a dynamic element without the need to know its exact type.
+
+**Errors**: If the code isn’t valid, errors surface at runtime rather than compile time.
+
+```csharp
+class ExampleClass
+{
+    public void ExampleMethod1(int i) { /* ... */ }
+    public void ExampleMethod2(string str) { /* ... */ }
+}
+
+static void Main(string[] args)
+{
+    ExampleClass ec = new ExampleClass();
+
+    // Compiler error (if ExampleMethod1 has only one parameter)
+    // ec.ExampleMethod1(10, 4);
+
+    dynamic dynamic_ec = new ExampleClass();
+
+    // No compiler error (but causes a runtime exception)
+    dynamic_ec.ExampleMethod1(10, 4);
+
+    // These calls also don't cause compiler errors
+    dynamic_ec.SomeMethod("some argument", 7, null);
+    dynamic_ec.NonexistentMethod();
+}
+```
+
+**References:**
+
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/
+- https://www.reddit.com/r/csharp/comments/15i6m8b/very_confused_about_structs/
+- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#code-try-3
+
+---
+
+
+
+## Namespace:
+- They organize large code projects.
+- They're delimited by using the . operator.
+- The using directive obviates the requirement to specify the name of the namespace for every class.
+- The global namespace is the "root" namespace: global::System will always refer to the .NET System namespace.
+
+**References:**
+
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/namespaces
+
+---
+
+
+## Class:
+
+- Beginning with C# 12, you can define a primary constructor as part of the class declaration:
+  
+  ```csharp
+      public class Container(int capacity)
+    {
+        private int _capacity = capacity;
+    }
+  ```
+- You can also use the required modifier on a property and allow callers to use an object initializer to set the initial value of the property:
+
+```csharp
+public class Person
+{
+    public required string LastName { get; set; }
+    public required string FirstName { get; set; }
+}
+
+var p1 = new Person(); // Error! Required properties not set
+var p2 = new Person() { FirstName = "Grace", LastName = "Hopper" };
+```
+
+**References:**
+
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/classes
+
+  
+---
+
+
+
+
+
+
+## Records:
+
+### Records Overview: ###
+Records are reference types (or value types) designed for encapsulating data.
+They provide built-in functionality for common scenarios.
+
+### Syntax: ###
+
+Use the record modifier to define a reference type (record class) or a value type (record struct).
+Records simplify creating immutable data models.
+
+```csharp
+// A simple record with positional parameters
+public record Person(string FirstName, string LastName);
+
+// Usage
+var person = new Person("John", "Doe");
+Console.WriteLine($"Full Name: {person.FirstName} {person.LastName}");
+```
+
+### Positional Parameters: ###
+Records have a primary constructor with positional parameters.
+The compiler generates public properties for these parameters.
+Positional properties are read-only.
+
+**Deconstruction of Records:**
+
+```csharp
+var (first, last) = person; // Deconstructing into separate variables
+Console.WriteLine($"First Name: {first}, Last Name: {last}");
+
+```
+
+### Immutability: ###
+Records are immutable by default.
+Once created, their property values cannot change.
+
+### Value Equality: ###
+Records support value-based equality checking.
+Two records with the same values are considered equal.
+
+```csharp
+var person1 = new Person("John", "Doe");
+var person2 = new Person("John", "Doe");
+
+// Value equality (true)
+bool areEqual = person1 == person2;
+Console.WriteLine($"Are equal: {areEqual}");
+```
+
+### Customization: ###
+Records provide default formatting (customizable via ToString()).
+Use records for API response models, configuration settings, and domain models.
+
+```csharp
+public record Point(int X, int Y)
+{
+    public override string ToString() => $"({X}, {Y})";
+}
+
+var point = new Point(10, 20);
+Console.WriteLine($"Point: {point}"); // Prints "(10, 20)"
+
+```
+
+
+
+---
+
+
+
+
+
+
+
+
+## Memory Management:
 
 **Memory Compaction:**
 
@@ -240,168 +657,19 @@ These dead objects can be reused for new large object allocations
 <img src = "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/media/loh/loh-figure-2.jpg" width=700 height=400>
 </p>
 
+**References:**
+ - https://learn.microsoft.com/en-us/dotnet/standard/automatic-memory-management
+ - https://learn.microsoft.com/en-us/dotnet/api/system.gc?view=net-8.0
+ - https://workat.tech/core-cs/tutorial/logical-and-physical-address-os-8abv46w3k0bu#:~:text=Physical%20Address%20is%20the%20actual,deals%20with%20the%20Physical%20Address.
+ - https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
+ - https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/
+ - https://www.telerik.com/blogs/understanding-net-garbage-collection
+ - https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/background-gc
+
+
 ---
 
 
-
-
-
-
-
-## Types:
-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct
-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct
-- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/
-- https://www.reddit.com/r/csharp/comments/15i6m8b/very_confused_about_structs/
-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#code-try-3
-
-### Value Types:
-
-1. Derived from System.ValueType, which itself derives from System.Object.
-2. Special behavior in the Common Language Runtime (CLR).
-3. Variables directly contain their values.
-
-**Structure Type:**
-
-A structure type (or struct type) is a value type that encapsulates data and related functionality.
-You use the struct keyword to define a structure type.
-Structure types have value semantics, meaning they contain an instance of the type directly.
-
-**Default Behavior:**
-
-Variable values of structure types are copied on assignment, method arguments, and method return.
-Use structure types for small data-centric types with little or no behavior.
-
-**Immutable Structs:**
-Declare a readonly struct to make it immutable.
-All data members must be read-only or init-only.
-
-**Readonly Instance Members:**
-Mark instance members as readonly if they don’t modify the struct’s state.
-Readonly members can call non-readonly members but can’t assign to instance fields.
-
-**Enumeration Type:** 
-
-1. An enum type is a value type defined by named constants.
-2. Enum members have an associated constant value (by default, of type int).
-3. You can specify any integral numeric type as the underlying type.
-
-
-**Nullable value type** - T? represents all values of its underlying value type T and an additional null value
-
-**const** - keyword to declare a constant field or a local constant
-
-**Built-in types:**
-
-1. bool - System.Boolean
-2. byte	- System.Byte
-3. sbyte - System.SByte
-4. char	- System.Char
-5. decimal - System.Decimal
-6. double	- System.Double
-7. float	- System.Single
-8. int	- System.Int32
-9. uint	- System.UInt32
-10. nint	- System.IntPtr
-11. nuint	- System.UIntPtr
-12. long	- System.Int64
-13. ulong	- System.UInt64
-14. short	- System.Int16
-15. ushort - System.UInt16
-
-
-### Reference Types:
-
-1. class
-2. interface
-3. delegate
-4. record
-
-**Built-in types:**
-
-1. object	- System.Object
-2. string	- System.String
-3. dynamic - System.Object
-
-### Tuples vs System.Tuple:
-The tuples feature provides concise syntax to group multiple data elements in a lightweight data structure. 
-
-```charp
-(double, int) t1 = (4.5, 3);
-Console.WriteLine($"Tuple with elements {t1.Item1} and {t1.Item2}.");
-// Output:
-// Tuple with elements 4.5 and 3.
-
-(double Sum, int Count) t2 = (4.5, 3);
-Console.WriteLine($"Sum of {t2.Count} elements is {t2.Sum}.");
-// Output:
-// Sum of 3 elements is 4.5.
-```
-
-C# tuples, which are backed by System.ValueTuple types, are different from tuples that are represented by System.Tuple types. The main differences are as follows:
-
-1. System.ValueTuple types are value types. System.Tuple types are reference types.
-2. System.ValueTuple types are mutable. System.Tuple types are immutable.
-3. Data members of System.ValueTuple types are fields. Data members of System.Tuple types are properties.
-
-**Tuples as out parameters**
-
-```csharp
-var limitsLookup = new Dictionary<int, (int Min, int Max)>()
-{
-    [2] = (4, 10),
-    [4] = (10, 20),
-    [6] = (0, 23)
-};
-
-if (limitsLookup.TryGetValue(4, out (int Min, int Max) limits))
-{
-    Console.WriteLine($"Found limits: min is {limits.Min}, max is {limits.Max}");
-}
-// Output:
-// Found limits: min is 10, max is 20
-```
-
-### Dynamic Type:
-The dynamic type in C# was introduced in version 4.0 (.NET 4.5). It allows you to bypass compile-time type checking and resolve the type at runtime. Here are the key points about dynamic 
-
-**Definition**: A dynamic type variable is defined using the dynamic keyword.
-
-**Type Checking**: Unlike other static types, the compiler doesn’t perform type checking on dynamic variables during compilation.
-
-**Runtime Resolution**: The actual type of a dynamic variable is determined at runtime.
-
-**Operations**: You can perform any operation on a dynamic element without the need to know its exact type.
-
-**Errors**: If the code isn’t valid, errors surface at runtime rather than compile time.
-
-```csharp
-class ExampleClass
-{
-    public void ExampleMethod1(int i) { /* ... */ }
-    public void ExampleMethod2(string str) { /* ... */ }
-}
-
-static void Main(string[] args)
-{
-    ExampleClass ec = new ExampleClass();
-
-    // Compiler error (if ExampleMethod1 has only one parameter)
-    // ec.ExampleMethod1(10, 4);
-
-    dynamic dynamic_ec = new ExampleClass();
-
-    // No compiler error (but causes a runtime exception)
-    dynamic_ec.ExampleMethod1(10, 4);
-
-    // These calls also don't cause compiler errors
-    dynamic_ec.SomeMethod("some argument", 7, null);
-    dynamic_ec.NonexistentMethod();
-}
-```
-
----
 
 
 
@@ -441,50 +709,14 @@ The System namespace is the root namespace for fundamental types in .NET. This n
 
 
 
-## Top Level Statement:
- - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
-
-With top-level statements, you can avoid the extra ceremony of placing your program’s entry point in a static method within a class.
-
-```csharp
-Console.WriteLine("Hello World");
-```
-
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseAuthorization();
-
-app.MapGet("/hi", () => "Hello!");
-
-app.MapDefaultControllerRoute();
-app.MapRazorPages();
-
-app.Run();
-```
-
----
 
 
-## CLR 
-- https://barcelonageeks.com/common-language-runtime-clr-en-c-1/
-- 
+
+
+
+
+
+## CLR:
 
 <p align="center">
 <img src = "https://media.geeksforgeeks.org/wp-content/uploads/Overview-of-the-.NET-Framework-min.png" width=700 height=400>
@@ -511,21 +743,32 @@ CLR (Common Language Runtime): The CLR is a crucial component of the .NET Framew
 The CLR also manages memory, handles exceptions, and provides other runtime services. It ensures that your C# application runs smoothly and efficiently.
 
 
+**References:**
+- https://barcelonageeks.com/common-language-runtime-clr-en-c-1/
 
 ---
+
+
+
+
+
 
 
 
 
 ## Assembly:
 
+
+**References:**
 - https://learn.microsoft.com/en-us/dotnet/standard/assembly/
 - https://www.youtube.com/watch?v=GHNrje08gQM
 - https://www.youtube.com/watch?v=lx2tSY4joDg&t=330s
 
-
-
 ---
+
+
+
+
 
 
 
@@ -630,7 +873,8 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
       }
 
      ```
-     
+
+**References:**   
   - https://www.youtube.com/watch?v=4ZfFI4zV1Wc
   - https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/
 
@@ -639,18 +883,31 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
 
 
 
+
+
+
+
+
+
 ## Property vs Field:
 
+**References:**
   - https://stackoverflow.com/questions/4142867/what-is-the-difference-between-a-property-and-a-variable
   - https://www.youtube.com/watch?v=UyS3ppdT8I4
-
 
 ---
 
 
 
+
+
+
+
+
+
 ## Sln
 
+**References:**
   - https://stackoverflow.com/questions/7133796/what-are-sln-and-vcproj-files-and-what-do-they-contain
   - https://www.youtube.com/watch?v=L2HCvO8dGVg
   - https://www.reddit.com/r/csharp/comments/10culvq/noob_question_sln_files/
@@ -660,8 +917,14 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
 
 
 
+
+
+
+
 ## Auto Implemented Properties
 
+
+**References:**
   - https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties
   - https://dev.to/cwl157/6-options-to-implement-auto-implemented-properties-a8o
 
@@ -670,7 +933,14 @@ The CLR also manages memory, handles exceptions, and provides other runtime serv
 
 
 
-## Anonymous Types
+
+
+
+
+
+
+
+## Anonymous Types:
  ### What are Anonymous Types?
   Anonymous types are nameless types that allow you to bundle a set of read-only properties into a single object without explicitly defining a type beforehand.
   These types are particularly useful when you want to create a temporary object with specific properties without having to create a formal class or struct.
@@ -703,11 +973,17 @@ Anonymous types are lightweight and convenient for short-lived scenarios.
 They cannot contain functions, constructors, or other class members.
 In summary, anonymous types provide a quick way to create small, temporary objects with specific properties. They’re especially handy when working with LINQ queries or when I need a simple data structure on the fly! 
 
+**References:**
+
 ---
 
 
 
+
+
 ## Dependency Injection:
+
+**References:**
  - https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
  - https://www.reddit.com/r/csharp/comments/ru9chz/can_you_explain_what_dependency_injection_is/
  - https://www.youtube.com/watch?v=Hhpq7oYcpGE&t=2337s
@@ -718,12 +994,29 @@ In summary, anonymous types provide a quick way to create small, temporary objec
 
 
 
+
+
+
+
+
 ## Extension Methods:
+
+
+
+
+**References:**
  - https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
  - https://www.tutorialsteacher.com/csharp/csharp-extension-method
 
 
 ---
+
+
+
+
+
+
+
 
 
 
@@ -750,17 +1043,34 @@ In other words, the method won’t hold onto the ref struct beyond its own scope
 Imagine you have a ref struct representing a buffer, and you want to pass it to a method for processing.
 By using scoped, you ensure that the method won’t accidentally capture the buffer or return it, avoiding lifetime issues.
 
-
+**References:**
 ---
 
 
+
+
+
+
+
+
 ## Stream vs Buffer:
+
+
+
+**References:**
 - https://stackoverflow.com/questions/43935608/difference-between-buffer-stream-in-c-sharp
 - https://learn.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-8.0
 - https://learn.microsoft.com/en-us/dotnet/api/system.buffer?view=net-8.0
 
 
 ---
+
+
+
+
+
+
+
 
 
 
@@ -810,17 +1120,12 @@ public readonly ref struct ConversionRequest
 }
 ```
 
+**References:**
 
 ---
 
 
 
-
-## Records:
-- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/records
-- https://www.csharptutorial.net/csharp-tutorial/csharp-record/
-
----
 
 
 ## Primary Consturctors:
@@ -872,18 +1177,34 @@ public readonly struct Circle
 }
 ```
 
+**References:**
 
 ---
+
+
+
+
+
 
 
 
 ## Conventions:
+
+
+
+
+**References:**
 - https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
 - https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
 - https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
 
-
 ---
+
+
+
+
+
+
 
 
 
@@ -911,8 +1232,17 @@ AOT support varies across different versions of .NET.
 Not all libraries are fully compatible with AOT.
 Some platform-specific limitations exist.
 
+**References:**
 
 ---
+
+
+
+
+
+
+
+
 
 
 
@@ -937,7 +1267,14 @@ Can have default constructors and destructors.
 **Used for lightweight data**: Structs are ideal for small, lightweight data structures (e.g., coordinates, simple data).
 Cannot have default constructors or destructors
 
+
+**References:**
+
+
 ---
+
+
+
 
 ## Glossaries:
 
