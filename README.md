@@ -9,6 +9,11 @@
 - [Types](#types)
 - [Namespace](#namespace)
 - [Class](#class)
+- [Records](#records)
+- [Generics](#generics)
+- [Anonymous Types](#anonymous-types)
+- [OOP](#oop)
+- [Discards](#discards)
 - [Memory Management](#memory-management)
 - [Libraries](#libraries)
 - [CLR](#clr)
@@ -22,7 +27,6 @@
 - [Extension Methods](#extension-methods)
 - [Stream vs Buffer](#stream-vs-buffer)
 - [Ref Struct](#ref-struct)
-- [Records](#records)
 - [Conventions](#conventions)
 - [AOT](#aot)
 - [Class vs Struct](#class-vs-struct)
@@ -37,7 +41,7 @@ C# programs consist of one or more files.
 Each file contains zero or more namespaces.
 A namespace can contain various types, such as classes, structs, interfaces, enumerations, and delegates, or other namespaces.
 
-### Main() Method: ###
+### Main() Method: 
 - The Main() method is the entry point of a C# application.
 - It’s where program control starts and ends.
 - Must be declared inside a class or struct.
@@ -55,7 +59,7 @@ public static async Task Main()
 
 public static async Task<int> Main()
 
-### Command-Line Arguments: ###
+### Command-Line Arguments: 
 - Parameters are read as zero-indexed command-line arguments.
 - Unlike C/C++, the program name is not treated as the first argument.
 - Use args.Length to get the number of command-line arguments.
@@ -383,6 +387,13 @@ static void Main(string[] args)
 
 
 
+
+
+
+
+
+
+
 ## Records:
 
 ### Records Overview: ###
@@ -448,13 +459,478 @@ Console.WriteLine($"Point: {point}"); // Prints "(10, 20)"
 
 ```
 
+---
 
+
+
+
+
+
+
+
+
+
+## Generics:
+
+### What Are Generics?
+
+Generics allow you to create classes, methods, and interfaces that work with different data types without sacrificing type safety.
+They provide a way to write reusable code by parameterizing types.
+
+### Syntax and Usage:
+Define a generic type using angle brackets (<>).
+
+Example: List<T> represents a list of elements of type T.
+
+### Benefits: ###
+
+**Type safety:** Compile-time checks ensure correct usage of generic types.
+
+**Code reusability:** Write one implementation for multiple data types.
+
+**Performance:** Avoid boxing/unboxing overhead for value types.
+
+### Constraints: ###
+Specify constraints on generic type parameters (e.g., where T : class or where T : struct).
+Constraints allow you to restrict the types that can be used with a generic type.
+
+### Common Use Cases: ###
+- Collections (e.g., lists, dictionaries) with various element types.
+- Algorithms that work with different data types.
+- Custom data structures.
+
+### Generic Class: ###
+Create a class that works with different data types using generics.
+
+```csharp
+public class Student<T>
+{
+    public T Data { get; set; }
+}
+
+// Usage:
+var studentName = new Student<string>();
+studentName.Data = "Avicii";
+
+var studentId = new Student<int>();
+studentId.Data = 23;
+```
+
+### Generic Method: ###
+Create a method that can handle any data type using generics.
+
+```csharp
+public static void DisplayData<T>(T data)
+{
+    Console.WriteLine("Data passed: " + data);
+}
+
+// Usage:
+DisplayData(34); // int
+DisplayData("Tim"); // string
+```
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Anonymous Types
+
+### What Are Anonymous Types? ###
+Anonymous types allow you to create objects without explicitly defining a class.
+They are useful for temporary data structures or projections.
+
+### Syntax: ###
+Create an anonymous type using the new keyword and an object initializer.
+
+Example: 
+  ```csharp
+    var person = new { Name = "John", Age = 30 };
+  ```
+
+### Properties: ###
+Anonymous types have read-only properties inferred from the initializer.
+You can access properties using dot notation (e.g., person.Name).
+
+### Common Use Cases: ###
+- Query results from LINQ expressions.
+- Data transformations or projections.
+- Simplified code for temporary data.
+
+### Basic Example: 
+
+```csharp
+var person = new { Name = "John Doe", Age = 25 };
+// Access properties:
+Console.WriteLine($"Name: {person.Name}, Age: {person.Age}");
+```
+
+### Using LINQ:
+
+```csharp
+var products = new List<Product>
+{
+    new Product { Color = "Red", Price = 50 },
+    new Product { Color = "Blue", Price = 40 }
+};
+
+var productQuery = from prod in products
+                   select new { prod.Color, prod.Price };
+
+foreach (var v in productQuery)
+{
+    Console.WriteLine($"Color: {v.Color}, Price: {v.Price}");
+}
+```
 
 ---
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## OOP:
+
+### What Is Object-Oriented Programming (OOP)?
+OOP is a programming paradigm that organizes code around objects.
+Objects encapsulate data (attributes) and behavior (methods).
+
+### Key Concepts:
+**Classes:** Blueprint for creating objects.
+
+**Objects:** Instances of classes.
+
+### Benefits of OOP:
+**Modularity:** Divide code into manageable components.
+
+**Reusability:** Reuse existing classes and build upon them.
+**Flexibility:** Easily modify or extend functionality.
+
+**Examples:**
+Define a Person class with properties like Name and Age.
+
+Create instances of Person and call methods (e.g., person.SayHello()).
+
+**Encapsulation**: 
+
+  It involves bundling related data (state) and behavior (methods) into a single unit (usually a class).
+  
+  Encapsulation ensures that the internal details of an object are hidden from external code.
+
+  **Why Use Encapsulation?**
+
+  **Data Protection:** Encapsulation allows you to protect data by restricting direct access to it.
+  
+  **Abstraction:** It simplifies the interface for using an object, exposing only essential methods and properties.
+  
+  **Modularity:** Encapsulated classes are easier to maintain and extend.
+
+  **Implementation Techniques:**
+
+  Use private, protected, or internal access modifiers to control visibility of class members.
+  
+  - **Private:** Only accessible within the class.
+  - **Protected:** Accessible within the class and derived classes.
+  - **Internal:** Accessible within the same assembly.
+
+  ```csharp
+      class BankAccount
+    {
+        private decimal balance;
+    
+        public decimal Balance
+        {
+            get { return balance; }
+            set { balance = value; }
+        }
+    }
+  ```
+
+**What is the use of encapsulation when I'm able to change the property values with setter methods?**
+
+- https://stackoverflow.com/questions/16418571/what-is-the-use-of-encapsulation-when-im-able-to-change-the-property-values-wit
+
+
+
+**Inheritance:**
+
+  - Inheritance allows one class (the derived class) to acquire properties and behaviors from another class (the base class).
+  - It promotes code reuse and hierarchy.
+
+  **Single Inheritance:**
+  
+  C# supports single inheritance, meaning a class can inherit from only one base class.
+  However, inheritance can be transitive, forming an inheritance hierarchy.
+  
+  **Base Class and Derived Class:**
+  
+  The base class provides common functionality.
+  The derived class extends or modifies that functionality.
+  
+    Example: class Dog : Animal { ... }
+    
+  **Access Modifiers:**
+  
+  Use access modifiers (e.g., public, protected, private) to control member visibility.
+  Inherited members can be overridden or accessed based on their visibility.
+  
+  **Method Overriding:**
+  
+  Derived classes can override base class methods.
+  Use the override keyword to provide a new implementation.
+
+  ```csharp
+        class Circle : Shape
+    {
+        public override double Area() { ... }
+    }
+  ```
+
+  **Base Keyword:**
+  
+  Use base to call base class methods or constructors.
+  
+  Example: base.Area();
+
+
+**Polymorphism:**
+
+  It allows you to treat objects of different types as if they were the same type.
+
+  - **Runtime Polymorphism:** Objects of derived classes can be treated as objects of the base class. The declared type no longer matches the runtime type.
+  - **Method Overriding:** Derived classes can provide their own implementation for methods defined in the base class.
+
+
+  **Method Overloading:**
+  
+  ```csharp
+    abstract class Shape
+    {
+        public abstract double Area();
+    }
+    
+    class Circle : Shape
+    {
+        public override double Area()
+        {
+            // Calculate circle area
+        }
+    }
+    
+    class Rectangle : Shape
+    {
+        public override double Area()
+        {
+            // Calculate rectangle area
+        }
+    }
+    
+    // Usage:
+    Shape shape = new Circle();
+    double area = shape.Area(); // Polymorphic call
+
+  ```
+  
+  **Operator Overloading:**
+    
+  ```csharp
+        class ComplexNumber
+    {
+        public double Real { get; set; }
+        public double Imaginary { get; set; }
+    
+        public static ComplexNumber operator +(ComplexNumber a, ComplexNumber b)
+        {
+            // Add complex numbers
+        }
+    }
+    
+    // Usage:
+    ComplexNumber c1 = new ComplexNumber();
+    ComplexNumber c2 = new ComplexNumber();
+    ComplexNumber result = c1 + c2; // Polymorphic operator overloading
+  ```
+
+
+## Pattern Matching:
+  - Technique to test expressions for specific characteristics.
+  - C# provides concise syntax for matching expressions.
+  - Two main expressions: “is expression” and “switch expression.”
+
+  **is Expression**
+
+    ```csharp
+    int? maybe = 12;
+    if (maybe is int number)
+    {
+        Console.WriteLine($"The nullable int 'maybe' has the value {number}");
+    }
+    
+    ```
+  **switch Expression**
+  
+    ```csharp
+    public static class SwitchExample
+    {
+        public enum Direction
+        {
+            Up, Down, Right, Left
+        }
+    
+        public enum Orientation
+        {
+            North, South, East, West
+        }
+    
+        public static Orientation ToOrientation(Direction direction) =>
+            direction switch
+            {
+                Direction.Up => Orientation.North,
+                Direction.Right => Orientation.East,
+                Direction.Down => Orientation.South,
+                Direction.Left => Orientation.West,
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), $"Not expected direction value: {direction}"),
+            };
+    
+        public static void Main()
+        {
+            var direction = Direction.Right;
+            Console.WriteLine($"Map view direction is {direction}");
+            Console.WriteLine($"Cardinal orientation is {ToOrientation(direction)}");
+            // Output:
+            // Map view direction is Right
+            // Cardinal orientation is East
+        }
+    }
+    
+    ```
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Discards
+
+### What Are Discards?
+Discards are intentionally unused variables in your code.
+They act as placeholders for values you don’t need or want to explicitly create variables for.
+Discards are equivalent to unassigned variables; they don’t have a value.
+
+### Use Cases for Discards:
+Ignoring Expression Results:
+
+When you want to ignore the result of an expression (e.g., method return value), use a discard.
+
+Example: (_, _, area) = city.GetCityInformation(cityName);
+
+Tuple and Object Deconstruction:
+
+When working with tuples, you can use discards for elements you don’t care about.
+
+Example: (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
+
+### Syntax:
+Indicate a variable as a discard by assigning it the underscore (_) as its name.
+Attempting to retrieve its value generates a compiler error because it’s intentionally unused.
+    
+```csharp
+var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
+Console.WriteLine($"Population change, 1960 to 2010: {pop2 - pop1:N0}");
+
+static (string, double, int, int, int, int) QueryCityDataForYears(string name, int year1, int year2)
+{
+    int population1 = 0, population2 = 0;
+    double area = 0;
+    if (name == "New York City")
+    {
+        area = 468.48;
+        if (year1 == 1960)
+        {
+            population1 = 7781984;
+        }
+        if (year2 == 2010)
+        {
+            population2 = 8175133;
+        }
+    }
+    // Other logic...
+    return (name, area, year1, population1, year2, population2);
+}
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```csharp
+
+```
+```csharp
+
+```
+```csharp
+
+```
 
 
 
