@@ -14,6 +14,7 @@
 - [Anonymous Types](#anonymous-types)
 - [OOP](#oop)
 - [Discards](#discards)
+- [Exceptions](#exceptions)
 - [Memory Management](#memory-management)
 - [Libraries](#libraries)
 - [CLR](#clr)
@@ -918,8 +919,114 @@ static (string, double, int, int, int, int) QueryCityDataForYears(string name, i
 
 
 
+## Exceptions:
 
+  ### Use try/catch/finally Blocks:
+    - Wrap potentially exception-prone code in a try block.
+    - Use catch blocks to handle specific exceptions or log errors.
+    - Clean up resources (e.g., close files, release connections) in a finally block.
+  ### Order Exceptions from Most Derived to Least Derived:
+    - In catch blocks, order exceptions from the most specific (derived) to the least specific (base).
+    - This ensures that more specific exceptions are caught before more general ones.
+  ### Avoid Swallowing Exceptions:
+    - Don’t catch exceptions if you can’t handle them effectively.
+    - Let exceptions propagate up the call stack to higher-level handlers.
+  ### Check Common Conditions to Avoid Exceptions:
+    - Use conditional checks to prevent exceptions when possible. For example, verify connection states before closing them.
+    - Use using Statements for Resource Cleanup:
+    - Leverage using statements to automatically clean up resources (e.g., file handles, database connections).
+    - Resources are disposed of even if exceptions occur.
+  ### Log Exceptions:
+    - Log exception details (type, message, stack trace) for debugging and diagnostics.
+    - Use a logging framework (e.g., Serilog, NLog) to capture exceptions.
+  ### Create Custom Exceptions:
+    - Define custom exception classes for specific scenarios in your application.
+    - Derive from Exception or other relevant base classes.
+    - Include additional properties or context information.
+  ### Provide User-Friendly Messages:
+    - When displaying exceptions to users, provide clear and informative error messages.
+    - Avoid exposing technical details that might confuse users.
 
+### Basic Exception Handling with try and catch:
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            int numerator = 5;
+            int denominator = 0;
+            int result = numerator / denominator; // Throws DivideByZeroException
+            Console.WriteLine($"Result: {result}");
+        }
+        catch (DivideByZeroException e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
+    }
+}
+// Output: Error: Attempted to divide by zero.  
+```
+
+### Custom Exception Class:
+
+```csharp
+using System;
+
+class CustomException : Exception
+{
+    public CustomException(string message) : base(message) { }
+}
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            throw new CustomException("Something went wrong!");
+        }
+        catch (CustomException e)
+        {
+            Console.WriteLine($"Custom Exception: {e.Message}");
+        }
+    }
+}
+// Output: Custom Exception: Something went wrong!
+```
+
+### Using finally Block:
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            // Code that may raise an exception
+            Console.WriteLine("Inside try block");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Exception: {e.Message}");
+        }
+        finally
+        {
+            // This code always executes, whether there's an exception or not
+            Console.WriteLine("Inside finally block");
+        }
+    }
+}
+// Output:
+// Inside try block
+// Inside finally block
+
+```
 
 
 ```csharp
@@ -931,9 +1038,18 @@ static (string, double, int, int, int, int) QueryCityDataForYears(string name, i
 ```csharp
 
 ```
+```csharp
 
+```
+```csharp
 
+```
+```csharp
 
+```
+```csharp
+
+```
 
 ## Memory Management:
 
