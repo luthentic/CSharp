@@ -18,6 +18,7 @@
 - [Conventions](#conventions)
 - [LINQ](#linq)
 - [Asynchronous](#asynchronous)
+- [Expression Trees](#expression-trees)
 - [Memory Management](#memory-management)
 - [Libraries](#libraries)
 - [CLR](#clr)
@@ -1468,6 +1469,39 @@ namespace AsyncWpfApp
 
 
 
+## Reflection:
+
+### Attributes:
+Attributes provide a powerful way to associate metadata or declarative information with code elements such as assemblies, types, methods, properties, and more.
+You can add custom attributes to specify additional information required for your program.
+Attributes can be applied to entire assemblies, modules, or smaller program elements like classes and properties.
+They can accept arguments similar to methods and properties.
+
+Examples of built-in attributes include SerializableAttribute, ObsoleteAttribute, and DllImportAttribute.
+
+### Reflection:
+Reflection allows you to examine and manipulate code at runtime.
+It provides objects (of type Type) that describe assemblies, modules, and types.
+You can dynamically create instances of types, bind types to existing objects, and invoke methods or access fields and properties.
+
+Example using GetType() to obtain the type of a variable:
+
+```csharp
+int i = 42;
+Type type = i.GetType();
+Console.WriteLine(type); // Output: System.Int32
+```
+
+```csharp
+Assembly info = typeof(int).Assembly;
+Console.WriteLine(info); // Output: System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e
+```
+
+---
+
+
+
+
 ```csharp
 
 ```
@@ -1726,6 +1760,34 @@ The System namespace is the root namespace for fundamental types in .NET. This n
 
 
 
+
+
+
+
+
+
+
+
+## Expression Trees:
+
+### What Are Expression Trees?
+An expression tree is an in-memory representation of a lambda expression.
+It captures the structure of the lambda expression, including its elements, but not the result of the query.
+Expression trees make the structure of the lambda expression explicit and transparent.
+You can interact with the data in the expression tree just like any other data structure1.
+
+### How Expression Trees Work:
+Expression trees represent code as a tree structure.
+Each node in the tree corresponds to an element of the expression.
+For example, consider the expression var sum = 1 + 2;.
+The expression tree for this includes nodes for variable declaration, assignment, addition, and constant values (1 and 2).
+Expression trees allow you to see method and property names, constant values, and subexpressions.
+You can even convert an expression tree into an executable delegate and execute the code1.
+
+### Immutable Data Structures:
+Expression trees are immutable.
+If you need to modify an expression tree, create a new tree with the desired changes.
+You cannot directly mutate an existing expression tree1
 
 
 
