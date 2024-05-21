@@ -15,6 +15,9 @@
 - [OOP](#oop)
 - [Discards](#discards)
 - [Exceptions](#exceptions)
+- [Conventions](#conventions)
+- [LINQ](#linq)
+- [Asynchronous](#asynchronous)
 - [Memory Management](#memory-management)
 - [Libraries](#libraries)
 - [CLR](#clr)
@@ -28,7 +31,6 @@
 - [Extension Methods](#extension-methods)
 - [Stream vs Buffer](#stream-vs-buffer)
 - [Ref Struct](#ref-struct)
-- [Conventions](#conventions)
 - [AOT](#aot)
 - [Class vs Struct](#class-vs-struct)
 - [Glossaries](#glossaires)
@@ -1028,28 +1030,359 @@ class Program
 
 ```
 
+### Compiler-generated exceptions:
+
+**ArithmeticException:**
+
+Base class for exceptions during arithmetic operations (e.g., DivideByZeroException and OverflowException).
+
+**ArrayTypeMismatchException:**
+
+Thrown when an array can’t store an element due to incompatible types.
+
+```csharp
+try
+{
+    int[] numbers = new int[3];
+    object obj = "Hello";
+    numbers[0] = (int)obj; // Throws ArrayTypeMismatchException
+}
+catch (ArrayTypeMismatchException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**DivideByZeroException:**
+
+Occurs when dividing an integral value by zero.
+
+
+```csharp
+try
+{
+    int result = 10 / 0; // Throws DivideByZeroException
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**IndexOutOfRangeException:**
+
+Thrown when attempting to index an array with an invalid index (less than zero or outside array bounds).
+
+```csharp
+try
+{
+    int[] numbers = new int[3];
+    int value = numbers[5]; // Throws IndexOutOfRangeException
+}
+catch (IndexOutOfRangeException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**InvalidCastException:**
+
+Happens when explicit conversion from a base type to an interface or derived type fails at runtime.
+
+```csharp
+try
+{
+    object obj = "Hello";
+    int intValue = (int)obj; // Throws InvalidCastException
+}
+catch (InvalidCastException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**NullReferenceException:**
+
+Raised when referencing a null object.
+
+```csharp
+try
+{
+    byte[] bigArray = new byte[int.MaxValue]; // Throws OutOfMemoryException
+}
+catch (OutOfMemoryException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**OutOfMemoryException:**
+
+Indicates memory allocation failure using the new operator.
+
+```csharp
+try
+{
+    byte[] bigArray = new byte[int.MaxValue]; // Throws OutOfMemoryException
+}
+catch (OutOfMemoryException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**OverflowException:**
+
+Arises during arithmetic operations in a checked context when overflow occurs.
+
+```csharp
+try
+{
+    byte value = checked((byte)(200 + 200)); // Throws OverflowException
+}
+catch (OverflowException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+
+**StackOverflowException:**
+
+Indicates exhausted execution stack due to deep or infinite recursion.
+
+```csharp
+void RecursiveMethod()
+{
+    RecursiveMethod(); // Throws StackOverflowException
+}
+
+```
+
+**TypeInitializationException:**
+
+Thrown when a static constructor fails without a compatible catch clause.
+
+```csharp
+class MyClass
+{
+    static MyClass()
+    {
+        throw new Exception("Static constructor failed.");
+    }
+}
+
+try
+{
+    var instance = new MyClass(); // Throws TypeInitializationException
+}
+catch (TypeInitializationException ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+```
+---
+
+
+
+
+
+
+
+
+
+
+
+## Conventions:
+
+### Naming Rules:
+- Identifiers must start with a letter or underscore (_).
+- They can contain Unicode letter characters, decimal digit characters, connecting characters, combining characters, or formatting characters.
+- You can use the @ prefix to declare identifiers that match C# keywords.
+- For a complete definition of valid identifiers, refer to the C# Language Specification.
+
+### Naming Conventions:
+- By convention, use PascalCase for type names, namespaces, and public members.
+- Interface names start with a capital I.
+- Attribute types end with the word Attribute.
+- Enum types use singular nouns for non-flags and plural nouns for flags.
+- Avoid consecutive underscores (__) in identifiers (reserved for compiler-generated names).
+- Choose meaningful and descriptive names.
+- Use PascalCase for class and method names, and camelCase for method parameters and local variables.
+- Private instance fields start with an underscore (_).
+- Static fields start with s_.
+- Avoid single-letter names except for simple loop counters.
+
+### Namespace Naming:
+- Use meaningful and descriptive namespaces.
+- Follow a hierarchical structure (e.g., MyApp.Services, MyApp.Models).
+- Braces and Indentation:
+- Use K&R style (opening brace on the same line as the method/class).
+- Indent code blocks consistently (usually 4 spaces or a tab).
+
+### Comments and Documentation:
+- Document public APIs using XML comments (///).
+- Explain the purpose of classes, methods, and parameters.
+- Avoid excessive comments within methods (code should be self-explanatory).
+
+### Using Directives:
+- Organize using directives alphabetically.
+- Remove unnecessary using statements.
+
+### Constants and Readonly Fields:
+- Use const for compile-time constants.
+- Prefer readonly for runtime constants (initialized at runtime).
+
+### Avoid Magic Numbers and Strings:
+- Define constants or enums instead of hardcoding values.
+- Avoid using raw strings directly in code.
+
+### Exception Handling:
+- Use meaningful exception types.
+- Handle exceptions appropriately (try-catch blocks).
+
+**References:**
+- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
+- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
+- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## LINQ
+
+### Unified Querying:
+LINQ provides a consistent way to query and manipulate data from collections, databases, XML, and other sources.
+Developers can use a single querying interface for various data types.
+
+### Syntax Similar to SQL:
+LINQ queries resemble SQL queries, making them easy to read and understand.
+You express queries using familiar language constructs.
+
+### Strongly Typed:
+Variables in LINQ queries are strongly typed.
+
+```csharp
+// Sample data source (a sequence of strings)
+        List<string> names = new List<string> { "Alice", "Bob", "Charlie" };
+```
+
+Queries are not executed until you iterate over the result (e.g., in a foreach loop).
+
+```csharp
+// LINQ query: Select names starting with 'B'
+        var query = from name in names
+                    where name.StartsWith("B")
+                    select name;
+
+        // Query is not executed until we iterate over the result
+        foreach (var result in query)
+        {
+            Console.WriteLine(result);
+        }
+```
+
+### Multiple LINQ Providers:
+LINQ supports different data sources:
+LINQ to Objects: Querying in-memory collections.
+LINQ to SQL: Querying relational databases.
+LINQ to XML: Querying XML data.
+
+### Examples:
+
+**Query Syntax:**
+
+```csharp
+int[] numbers = { 5, 10, 8, 3, 6, 12 };
+var evenNumbersQuery = from num in numbers
+                       where num % 2 == 0
+                       select num;
+foreach (var num in evenNumbersQuery)
+{
+    Console.Write(num + " ");
+}
+
+```
+
+**Method Syntax:**
+
+```csharp
+var evenNumbersMethod = numbers.Where(num => num % 2 == 0);
+foreach (var num in evenNumbersMethod)
+{
+    Console.Write(num + " ");
+}
+
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Asynchronous
+
+
+
 
 ```csharp
 
 ```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
 ```csharp
 
 ```
-```csharp
 
-```
-```csharp
 
-```
-```csharp
 
-```
-```csharp
 
-```
-```csharp
-
-```
 
 ## Memory Management:
 
@@ -1573,6 +1906,16 @@ In summary, anonymous types provide a quick way to create small, temporary objec
 
 
 
+
+
+
+
+
+
+
+
+
+
 ## Dependency Injection:
 
 **References:**
@@ -1583,6 +1926,14 @@ In summary, anonymous types provide a quick way to create small, temporary objec
 
 
 ---
+
+
+
+
+
+
+
+
 
 
 
@@ -1602,6 +1953,9 @@ In summary, anonymous types provide a quick way to create small, temporary objec
 
 
 ---
+
+
+
 
 
 
@@ -1645,6 +1999,11 @@ By using scoped, you ensure that the method won’t accidentally capture the buf
 
 
 
+
+
+
+
+
 ## Stream vs Buffer:
 
 
@@ -1656,6 +2015,7 @@ By using scoped, you ensure that the method won’t accidentally capture the buf
 
 
 ---
+
 
 
 
@@ -1715,6 +2075,16 @@ public readonly ref struct ConversionRequest
 **References:**
 
 ---
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1780,17 +2150,7 @@ public readonly struct Circle
 
 
 
-## Conventions:
 
-
-
-
-**References:**
-- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
-- https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
-- https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
-
----
 
 
 
