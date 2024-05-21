@@ -856,7 +856,6 @@ Create instances of Person and call methods (e.g., person.SayHello()).
 
 
 
-
 ## Discards
 
 ### What Are Discards?
